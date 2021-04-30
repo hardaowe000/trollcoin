@@ -1,0 +1,3 @@
+discord.py
+pyrebase
+discord-py-slash-command
