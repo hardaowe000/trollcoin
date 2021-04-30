@@ -43,13 +43,13 @@ join_messages = [
 ]
 
 guild_ids = [int(f) for f in db.child('active_guilds').get().val()]
-print(f"Active Guilds: {guild_ids}")
+# print(f"Active Guilds: {guild_ids}")
 
 channels = [int(f) for f in db.child('binded_channels').get().val()]
-print(f"Binded Channels: {channels}")
+# print(f"Binded Channels: {channels}")
 
 pdata = db.child("users").get().val()
-print(f"User Data: {pdata}")
+# print(f"User Data: {pdata}")
 # input()
 
 @slash.slash(
@@ -229,8 +229,8 @@ def ahelp(which):
 
 @client.event
 async def on_message(message):
-  try: print(f"[{message.guild.name}] [{message.channel.name}] {message.author} : {message.content}")
-  except:pass
+  # try: print(f"[{message.guild.name}] [{message.channel.name}] {message.author} : {message.content}")
+  # except:pass
   pm = message.content.lower()
   global channels
   global pdata
@@ -419,11 +419,11 @@ def saveData():
       pdata[z] = round(pdata[z], 2)
     time.sleep(15)
     db.child("active_guilds").set([str(f) for f in guild_ids])
-    print(f"Guild Data Saved:\n{guild_ids}")
+    # print(f"Guild Data Saved:\n{guild_ids}")
     db.child("binded_channels").set([str(f) for f in channels])
-    print(f"Channel Data Saved:\n{channels}")
+    # print(f"Channel Data Saved:\n{channels}")
     db.child("users").update(pdata)
-    print(f"User Data Saved:\n{pdata}")
+    # print(f"User Data Saved:\n{pdata}")
 saveDataT = threading.Thread(args=[],target=saveData)
 
 @client.event
