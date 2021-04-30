@@ -1,3 +1,4 @@
 discord.py
 pyrebase
 discord-py-slash-command
+discord_slash
