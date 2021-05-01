@@ -391,7 +391,7 @@ async def on_message(message):
     else: pass
   
   if str(message.channel.type) != "private" and pm.startswith(prefix+"help"):
-    await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.\nNote than you **must have admin permisssions to do this.**")
+    await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.\n\nNote than you **must have admin permisssions to do this.**")
   elif str(message.channel.type) == "private" and pm.startswith(prefix+"help"):
     await message.channel.send(embed=helpEmbed())
   if pm.startswith("le") and pm in ["".join([x,"o"*(len(pm)-len(x))]) for x in lesgo]:
