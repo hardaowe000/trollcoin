@@ -166,7 +166,7 @@ def helpEmbed():
   )
   embed.add_field(
     name = "tc! Commands:",
-    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**mine** - _**Only works in DMs**_ sends you .7~~TC~~.", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
+    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**mine** - _**Only works in DMs**_ sends you .7~~TC~~.\n**changelog** - pulls up a changelog.", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
     inline=True
   )
   embed.add_field(
@@ -188,7 +188,7 @@ def changeLog():
     - Added a mining command to help you get off the ground.\n
     - Changes to the binding command to allow admins to bind and unbind as opposed to just an owner.\n\n
     Happy Trolling!
-    """
+    """)
     
   embed.set_footer(text='Made by Elephant#5716 and Sounds About Right#9270 2021')
 
@@ -325,6 +325,8 @@ async def on_message(message):
     
       except:
         await message.channel.send("Yikes, something went wrong. Perhaps it's because you formatted this command incorrectly. It should be {prefix}send <usermention> <intamount>. Ignore the <>'s. Good luck!'")
+    elif pm.startswith(prefix+"changelog"):
+      message.channel.send(embed=changeLog())
     elif pm.startswith(prefix+"ahelp"):
       # dm = await message.author.create_dm()
       x = 0
