@@ -241,7 +241,7 @@ async def on_message(message):
     else:
       message.channel.send(f"<@{message.author.id}>, you don't have an account! Type tc!create to make an account.")
 
-  if pm.startswith(prefix+"bind") and str(message.channel.type) != "private" and message.author == message.channel.guild.owner:
+  if pm.startswith(prefix+"bind") and str(message.channel.type) != "private" and (message.author == message.channel.guild.owner or message.author.guild_permissions.administrator == True):
     if message.channel.id in channels:
       await message.channel.send("Channel already binded.")
     else:
@@ -257,7 +257,7 @@ async def on_message(message):
       
       await message.channel.send(embed=helpEmbed())
       
-    elif pm.startswith(prefix+"unbind") and str(message.channel.type) != "private" and message.author == message.channel.guild.owner:
+    elif pm.startswith(prefix+"unbind") and str(message.channel.type) != "private" and (message.author == message.channel.guild.owner or message.author.guild_permissions.administrator == True):
 
       channels.pop(channels.index(message.channel.id))
 
@@ -390,8 +390,10 @@ async def on_message(message):
 
     else: pass
   
-  if pm.startswith(prefix+"help"):
-    await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.")
+  if str(message.channel.type) != "private" and pm.startswith(prefix+"help"):
+    await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.\nNote than you **must have admin permisssions to do this.**")
+  elif str(message.channel.type) == "private" and pm.startswith(prefix+"help"):
+    await message.channel.send(embed=helpEmbed())
   if pm.startswith("le") and pm in ["".join([x,"o"*(len(pm)-len(x))]) for x in lesgo]:
     await message.add_reaction("👉")
     await message.add_reaction("👶")
