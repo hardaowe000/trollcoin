@@ -53,7 +53,7 @@ pdata = db.child("users").get().val()
 # input()
 
 @slash.slash(
-  guild_ids = guild_ids,
+  # guild_ids = guild_ids,
   name="ping",
   description="pong",
 )
@@ -61,7 +61,7 @@ async def _ping(ctx):
   await ctx.send("Pong!")
 
 @slash.slash(
-  guild_ids = guild_ids,
+  # guild_ids = guild_ids,
   name="gamble",
   description="gamble an integer amount for a chance to earn 133%",
   options=[
@@ -249,13 +249,15 @@ async def on_message(message):
 
       # print(channels)
       await message.channel.send("Binded successfully.")
-  
-  elif pm.startswith(prefix+"help"):
-    await message.channel.send(embed=helpEmbed())
+
   if int(message.channel.id) in channels or str(message.channel.type) == "private":
     if message.author == client.user:
       return
-    if pm.startswith(prefix+"unbind") and str(message.channel.type) != "private" and message.author == message.channel.guild.owner:
+    elif pm.startswith(prefix+"help"):
+      
+      await message.channel.send(embed=helpEmbed())
+      
+    elif pm.startswith(prefix+"unbind") and str(message.channel.type) != "private" and message.author == message.channel.guild.owner:
 
       channels.pop(channels.index(message.channel.id))
 
@@ -388,6 +390,8 @@ async def on_message(message):
 
     else: pass
   
+  if pm.startswith(prefix+"help"):
+    await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.")
   if pm.startswith("le") and pm in ["".join([x,"o"*(len(pm)-len(x))]) for x in lesgo]:
     await message.add_reaction("👉")
     await message.add_reaction("👶")
