@@ -178,6 +178,22 @@ def helpEmbed():
 
   return embed
 
+def changeLog():
+  embed = discord.Embed(
+    title="TrollCoin 1.1 Change Log",
+    color=discord.Color.from_rgb(252,255,51),
+    description="""It's been two days since release and we've added some features.\n\n
+    - Used Firebase to store user data; we push local data to the cloud every sixty seconds, hopefully streamlining processes.\n
+    - Using Heroku to cloud host this bot; stays on for longer, more consistently.\n
+    - Added a mining command to help you get off the ground.\n
+    - Changes to the binding command to allow admins to bind and unbind as opposed to just an owner.\n\n
+    Happy Trolling!
+    """
+    
+  embed.set_footer(text='Made by Elephant#5716 and Sounds About Right#9270 2021')
+
+  return embed
+
 # while True:
 #   winner_ticket = "".join([str(random.randint(0,9)) for f in range(5)])
 #   your_ticket =   "".join([str(random.randint(0,9)) for f in range(5)])
