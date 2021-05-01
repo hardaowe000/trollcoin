@@ -423,7 +423,7 @@ def saveData():
   while True:
     for z in pdata:
       pdata[z] = round(pdata[z], 2)
-    time.sleep(15)
+    time.sleep(60)
     db.child("active_guilds").set([str(f) for f in guild_ids])
     # print(f"Guild Data Saved:\n{guild_ids}")
     db.child("binded_channels").set([str(f) for f in channels])
