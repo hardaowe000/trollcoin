@@ -326,7 +326,7 @@ async def on_message(message):
       except:
         await message.channel.send("Yikes, something went wrong. Perhaps it's because you formatted this command incorrectly. It should be {prefix}send <usermention> <intamount>. Ignore the <>'s. Good luck!'")
     elif pm.startswith(prefix+"changelog"):
-      message.channel.send(embed=changeLog())
+      await message.channel.send(embed=changeLog())
     elif pm.startswith(prefix+"ahelp"):
       # dm = await message.author.create_dm()
       x = 0
@@ -408,7 +408,7 @@ async def on_message(message):
 
     else: pass
   
-  if str(message.channel.type) != "private" and pm.startswith(prefix+"help"):
+  if str(message.channel.type) != "private" and pm.startswith(prefix+"help") and int(message.channel.id) not in channels:
     await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.\n\nNote than you **must have admin permisssions to do this.**")
   elif str(message.channel.type) == "private" and pm.startswith(prefix+"help"):
     await message.channel.send(embed=helpEmbed())
