@@ -166,7 +166,15 @@ def helpEmbed():
   )
   embed.add_field(
     name = "tc! Commands:",
-    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**mine** - _**Only works in DMs**_ sends you .7~~TC~~.\n**changelog** - pulls up a changelog.", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
+    value="""**create** - create an account.
+    **balance** - see your balence (or others by mentioning them).
+    **send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.
+    **ascend** - buy a ticket to Le Troll Supreme for 1k.
+    **ahelp** - extra info on probability
+    **bind** - binds me to this channel. (allows me to talk in this channel)
+    **unbind** - unbinds this channel. I cannot read or talk in it for most commands.
+    **mine** - _**Only works in DMs**_ sends you .1~~TC~~.
+    **changelog** - pulls up a changelog.""", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
     inline=True
   )
   embed.add_field(
@@ -253,7 +261,7 @@ async def on_message(message):
   # print(message.channel.type)
   if str(message.channel.type) == "private" and pm.startswith(prefix+"mine"):
     if str(message.author.id) in pdata.keys():
-      pdata[str(message.author.id)] = pdata[str(message.author.id)] + .07
+      pdata[str(message.author.id)] = pdata[str(message.author.id)] + .1
     else:
       message.channel.send(f"<@{message.author.id}>, you don't have an account! Type tc!create to make an account.")
 
@@ -314,7 +322,7 @@ async def on_message(message):
           await message.channel.send(f"{message.mentions[0].name} doesn't have an account. You know what would be epic? Telling them to make one!")
         else:
           # # print(pm.split())
-          transfer_amount = round(float(pm.split()[-1]),2)
+          transfer_amount = round(float(pm.split()[-1]),2).
           # # print(transfer_amount)
           if pdata[str(message.author.id)] < transfer_amount+1:
             await message.channel.send(f"<@{message.author.id}>, you don't have enough TrollCoin for this transfer! :(")
@@ -410,8 +418,6 @@ async def on_message(message):
   
   if str(message.channel.type) != "private" and pm.startswith(prefix+"help") and int(message.channel.id) not in channels:
     await message.channel.send(content=f"Type in {prefix}bind to bind this channel. Otherwise I cannot interract with most commands.\n\nNote than you **must have admin permisssions to do this.**")
-  elif str(message.channel.type) == "private" and pm.startswith(prefix+"help"):
-    await message.channel.send(embed=helpEmbed())
   if pm.startswith("le") and pm in ["".join([x,"o"*(len(pm)-len(x))]) for x in lesgo]:
     await message.add_reaction("👉")
     await message.add_reaction("👶")
