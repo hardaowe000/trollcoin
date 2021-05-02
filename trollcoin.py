@@ -300,7 +300,7 @@ async def on_message(message):
         # data.write(pdata)
         await message.channel.send(f"Thank you <@{message.author.id}>, your account has been created!")
 
-    elif pm.startswith(prefix+"balence") or pm.startswith(prefix+"balance"):
+    elif pm.startswith(prefix+"bal"):
 
       if message.mentions == []:
         if str(message.author.id) in pdata.keys():
