@@ -461,7 +461,7 @@ async def on_ready():
   # print("Client info:")
   # print()
   # print("{0.user} Has been successfully updated!".format(client))
-  await client.change_presence(activity = discord.Game(name=f"{prefix}help")) # Sets status 
+  await client.change_presence(activity = discord.Game(name=f"In Troll we Trust | {prefix}help")) # Sets status 
   await client.get_channel(834813365648883744).send(embed = CE(description = "I'm alive"))
   saveDataT.start()
   # asyncio.create_task(manual_input())
