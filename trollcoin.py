@@ -322,7 +322,7 @@ async def on_message(message):
           await message.channel.send(f"{message.mentions[0].name} doesn't have an account. You know what would be epic? Telling them to make one!")
         else:
           # # print(pm.split())
-          transfer_amount = round(float(pm.split()[-1]),2).
+          transfer_amount = round(float(pm.split()[-1]),2)
           # # print(transfer_amount)
           if pdata[str(message.author.id)] < transfer_amount+1:
             await message.channel.send(f"<@{message.author.id}>, you don't have enough TrollCoin for this transfer! :(")
