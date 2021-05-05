@@ -327,9 +327,9 @@ async def on_message(message):
             await ahelp_dm.remove_reaction(member=message.author,emoji="➡️")
             x = 0 if x > 0 else x + 1
             await ahelp_dm.edit(embed=ahelp(x))
-      elif pm.startswith(prefix+"clear"):
+      elif message.author.id == 618574628608278528 and pm.startswith(prefix+"clear"):
         message.channel.send(content="||\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n||")
-      elif message.author.id == 618574628608278528 and pm.startswith(prefix+"ascend"):
+      elif pm.startswith(prefix+"ascend"):
         if pdata[str(message.author.id)] < 1001:
           await message.channel.send(f"<@{message.author.id}>, you don't have enough TrollCoin to ascend! :(")
         else:
