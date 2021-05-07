@@ -391,7 +391,7 @@ async def on_message(message):
   
       else: pass
     
-    if pm.rstrip("o").startswith("le"):
+    if pm.rstrip("o").startswith("le") and pm[-1]=="o":
       x =  pm.replace("'","")
       x =  x.replace(" ","")
       x =  x.replace("o","")
