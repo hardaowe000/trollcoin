@@ -32,7 +32,7 @@ slash = SlashCommand(client, sync_commands=True)
 # https://discord.com/api/oauth2/authorize?client_id=834810968264540182&permissions=8&scope=bot%20applications.commands
 
 
-lesgo = ["lest go","lesgo","lestgo", "letsgo","lesco","les go","lets go", "letsa go", "lets a go", "let's go","letsago","letsa go"]
+lesgo = ["letsgo","letsago","lesgo"]
 join_messages = [
   "Everyone welcome our newest thousandaire, {}!",
   "{} has ascended to new levels",
@@ -327,42 +327,6 @@ async def on_message(message):
             await ahelp_dm.remove_reaction(member=message.author,emoji="➡️")
             x = 0 if x > 0 else x + 1
             await ahelp_dm.edit(embed=ahelp(x))
-      elif message.author.id == 618574628608278528 and pm.startswith(prefix+"clear"):
-        message.channel.send(content="""
-        ||
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ||
-        """)
       elif pm.startswith(prefix+"ascend"):
         if pdata[str(message.author.id)] < 1001:
           await message.channel.send(f"<@{message.author.id}>, you don't have enough TrollCoin to ascend! :(")
@@ -427,10 +391,13 @@ async def on_message(message):
   
       else: pass
     
-    if pm.startswith("le") and pm in ["".join([x,"o"*(len(pm)-len(x))]) for x in lesgo]:
-      await message.add_reaction("👉")
-      await message.add_reaction("👶")
-      await message.add_reaction("👈")
+    if pm.rstrip("o").startswith("le"):
+      x =  pm.replace("'","")
+      x =  x.replace(" ","")
+      if x in lesgo:
+        await message.add_reaction("👉")
+        await message.add_reaction("👶")
+        await message.add_reaction("👈")
 
 @client.event
 async def on_member_join(member):
