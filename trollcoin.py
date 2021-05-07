@@ -394,6 +394,7 @@ async def on_message(message):
     if pm.rstrip("o").startswith("le"):
       x =  pm.replace("'","")
       x =  x.replace(" ","")
+      x =  x.replace("o","")
       if x in lesgo:
         await message.add_reaction("👉")
         await message.add_reaction("👶")
