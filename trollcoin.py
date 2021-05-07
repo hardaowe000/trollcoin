@@ -32,7 +32,7 @@ slash = SlashCommand(client, sync_commands=True)
 # https://discord.com/api/oauth2/authorize?client_id=834810968264540182&permissions=8&scope=bot%20applications.commands
 
 
-lesgo = ["letsgo","letsago","lesgo"]
+lesgo = ["letsg","letsag","lesg"]
 join_messages = [
   "Everyone welcome our newest thousandaire, {}!",
   "{} has ascended to new levels",
