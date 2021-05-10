@@ -405,6 +405,12 @@ async def on_message(message):
         await message.add_reaction("👉")
         await message.add_reaction("👶")
         await message.add_reaction("👈")
+    if pm.startswith("no"):
+      x = "".join([u.rstrip(",!.") for u in pm.split()])
+      if x == "nono":
+        await message.add_reaction("👈")
+        await message.add_reaction("👶")
+        await message.add_reaction("👉")
 
 @client.event
 async def on_member_join(member):
