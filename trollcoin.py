@@ -400,8 +400,8 @@ async def on_message(message):
         await message.add_reaction("👶")
         await message.add_reaction("👈")
     if pm.startswith("yea"):
-      x = "".join([u.rstrip("yh,") for u in pm.split()])
-      if x == "yeayea":
+      x = "".join([u.rstrip("yh,a") for u in pm.split()])
+      if x == "yeye":
         await message.add_reaction("👉")
         await message.add_reaction("👶")
         await message.add_reaction("👈")
