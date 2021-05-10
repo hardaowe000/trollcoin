@@ -394,19 +394,19 @@ async def on_message(message):
     if pm.rstrip("o").startswith("le"):
       x =  pm.replace("'","")
       x =  x.replace(" ","")
-      x =  x.rstrip("!.o")
+      x =  x.rstrip("!.o\"'")
       if x in lesgo:
         await message.add_reaction("👉")
         await message.add_reaction("👶")
         await message.add_reaction("👈")
     if pm.startswith("yea"):
-      x = "".join([u.rstrip("yh,a!.") for u in pm.split()])
+      x = "".join([u.rstrip("yh,a!.\"'") for u in pm.split()])
       if x == "yeye":
         await message.add_reaction("👉")
         await message.add_reaction("👶")
         await message.add_reaction("👈")
     if pm.startswith("no"):
-      x = "".join([u.rstrip(",!.") for u in pm.split()])
+      x = "".join([u.rstrip(",!.\"'") for u in pm.split()])
       if x == "nono":
         await message.add_reaction("👈")
         await message.add_reaction("👶")
