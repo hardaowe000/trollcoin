@@ -166,7 +166,7 @@ def helpEmbed():
   )
   embed.add_field(
     name = "tc! Commands:",
-    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**gamblehelp** - I will send the probability stats for gambling.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**stock <stockname>** - gets information about a stock (the price).\n**crypto <cryptocurrencyname> - gets information about a cryptocurrency (the price)**", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
+    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**gamblehelp** - I will send the probability stats for gambling.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**stock <stockname>** - gets information about a stock (the price).\n**crypto <cryptocurrencyname>** - gets information about a cryptocurrency (the price)", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
     inline=True
   )
   embed.add_field(
@@ -414,8 +414,8 @@ async def on_message(message):
       except:
         message.channel.send(content="Message was fromatted incorrectly.")
       try: 
-        html_pageG = BeautifulSoup(rq.get("https://www.google.com/search?q="+crypto.replace(" ","+")+"+cryptocurrency+coinmarketcap",headers={"user-agent":user}).text,"html.parser")
-        cmc = html_pageG.find("div",class_="yuRUbf").find("a")
+        html_pageG = BeautifulSoup(rq.get("https://www.google.com/search?q="+crypto.replace(" ","+")+"+cryptocurrency+coinmarketcap",headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser")
+        cmc = html_pageG.find("div",class_="yuRUbf").find("a")['href']
         if cmc.startswith("https://coinmarketcap.com/"):
           html_pageC = BeautifulSoup(rq.get(cmc,headers={"user-agent":user}).text,"html.parser")
           cost = html_pageC.find(class_="priceValue___11gHJ").text
