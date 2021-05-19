@@ -2,8 +2,8 @@ import discord
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_commands import create_option, create_choice
-import asyncio, random, threading, time, pyrebase
-
+import asyncio, random, threading, time, requests, pyrebase
+from bs4 import BeautifulSoup
 
 firebaseConfig = {
   "apiKey": "AIzaSyA5S9AvDZX_HxTlKV5Q7YQRyo0uvm9hOEM",
@@ -388,6 +388,12 @@ async def on_message(message):
             pdata[str(message.author.id)] = pdata[str(message.author.id)] + 50000
   
           await message.channel.send(embed = scratchTicket(winner_ticket,your_ticket))
+      elif pm.startswith(prefix+"stock"):
+        stock = str(pm.split()[-1])
+        try:
+          await message.channel.send(content=f"{stock.upper()} stock price: {BeautifulSoup(rq.get("https://www.google.com/search?q="+stock.replace(" ","+")+"+stock+price",headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser").find(jsname="vWLAgc").text}")
+        except:
+          await message.channel.send(content="An Error Occured :(")
   
       else: pass
     
