@@ -392,7 +392,7 @@ async def on_message(message):
         stock = str(pm.split()[-1])
         try:
           html_page = BeautifulSoup(rq.get("https://www.google.com/search?q="+stock.rstrip().replace(" ","+")+"+stock+price",headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser")
-          await message.channel.send(content=f"{stock.upper()} stock price: {html_page.find(jsname='vWLAgc').text}")
+          await message.channel.send(f"{stock.upper()} stock price: {html_page.find(jsname='vWLAgc').text}")
 
         except:
           await message.channel.send(content="An Error Occured :(")
