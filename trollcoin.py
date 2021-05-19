@@ -166,7 +166,7 @@ def helpEmbed():
   )
   embed.add_field(
     name = "tc! Commands:",
-    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**gamblehelp** - I will send the probability stats for gambling.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
+    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**gamblehelp** - I will send the probability stats for gambling.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**stock <stockname>** - gets information about a stock (the price).", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
     inline=True
   )
   embed.add_field(
