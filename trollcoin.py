@@ -389,13 +389,20 @@ async def on_message(message):
   
           await message.channel.send(embed = scratchTicket(winner_ticket,your_ticket))
       elif pm.startswith(prefix+"stock"):
-        stock = str(pm.split()[-1])
         try:
-          html_page = BeautifulSoup(rq.get("https://www.google.com/search?q="+stock.rstrip().replace(" ","+")+"+stock+price",headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser")
-          await message.channel.send(f"{stock.upper()} stock price: {html_page.find(jsname='vWLAgc').text}")
-
+          stock = pm.split()[1:]
+          stock = " ".join(stock)
+          print(stock)
         except:
-          await message.channel.send(content="An Error Occured :(")
+          message.channel.send(content="Message was fromatted incorrectly.")
+        try:
+          html_page = BeautifulSoup(requests.get("https://www.google.com/search?q="+stock.rstrip().replace(" ","+")+"+stock+price",headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser")
+        except:
+          message.channel.send(content="An Error Occured retrieving the google stock page. This is likely due to an error regarding special characters. Not sure though.")
+        try:
+          await message.channel.send(f"{stock.upper()} stock price: {html_page.find(jsname='vWLAgc').text}USD")
+        except:
+          await message.channel.send(content=f"An Error Occured finding the the stock price for {str(stock)}. This is likely due to an issue with its legitimacy. Please enter a valid stock name.")
   
       else: pass
     
@@ -461,6 +468,7 @@ async def on_ready():
   await client.change_presence(activity = discord.Game(name=f"{prefix}help")) # Sets status 
   await client.get_channel(834813365648883744).send(embed = CE(description = "I'm alive"))
   saveDataT.start()
+  print("hey")
   # asyncio.create_task(manual_input())
 
 client.run(token)
