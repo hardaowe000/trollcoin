@@ -166,7 +166,7 @@ def helpEmbed():
   )
   embed.add_field(
     name = "tc! Commands:",
-    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**gamblehelp** - I will send the probability stats for gambling.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**stock <stockname>** - gets information about a stock (the price).", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
+    value="**create** - create an account.\n**balance** - see your balence (or others by mentioning them).\n**send <usermention> <intvalue>** - sends a specified amount of ~~TC~~ to the mentioned user.\n**ascend** - buy a ticket to Le Troll Supreme for 1k.\n**gamblehelp** - I will send the probability stats for gambling.\n**ahelp** - extra info on probability\n**bind** - binds me to this channel. (allows me to talk in this channel)\n**unbind** - unbinds this channel. I cannot read or talk in it for most commands.\n**stock <stockname>** - gets information about a stock (the price).\n**crypto <cryptocurrencyname> - gets information about a cryptocurrency (the price)**", # \n**advancedhelp** - DMs you literally everything you could possibly do with the bot
     inline=True
   )
   embed.add_field(
@@ -400,11 +400,37 @@ async def on_message(message):
         except:
           message.channel.send(content="An Error Occured retrieving the google stock page. This is likely due to an error regarding special characters. Not sure though.")
         try:
-          await message.channel.send(f"{stock.upper()} stock price: {html_page.find(jsname='vWLAgc').text}USD")
+          name = html_page.find(class_="aMEhee").text
+          await message.channel.send(f"{name} stock price: {html_page.find(jsname='vWLAgc').text}USD")
         except:
-          await message.channel.send(content=f"An Error Occured finding the the stock price for {str(stock)}. This is likely due to an issue with its legitimacy. Please enter a valid stock name.")
+          await message.channel.send(content=f"An Error Occured finding the the stock price for "{str(stock)}". This is likely due to an issue with its legitimacy. Please enter a valid stock name.")
   
       else: pass
+    
+    elif pm.startswith(prefix+"crypto"):
+      try:
+        crypto = pm.split()[1:]
+        crypto = " ".join(stock)
+      except:
+        message.channel.send(content="Message was fromatted incorrectly.")
+      try: 
+        html_pageG = BeautifulSoup(rq.get("https://www.google.com/search?q="+crypto.replace(" ","+")+"+cryptocurrency+coinmarketcap",headers={"user-agent":user}).text,"html.parser")
+        cmc = html_pageG.find("div",class_="yuRUbf").find("a")
+        if cmc.startswith("https://coinmarketcap.com/"):
+          html_pageC = BeautifulSoup(rq.get(cmc,headers={"user-agent":user}).text,"html.parser")
+          cost = html_pageC.find(class_="priceValue___11gHJ").text
+          name = str(html_pageC.find(class_="priceHeading___2GB9O").text.split()[0])
+          await message.channel.send(f"{name} costs {cost[1:]}USD.")
+        else:
+          await message.channel.send(f'An error occured looking up "{crypto}". This is likely due to a problem with this crypto\'s legitimacy.')
+          
+      except:
+        message.channel.send(content="An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
+
+    # print()
+  else: 
+    print(f'An error occured looking up "{crypto}". This is likely due to a problem with this crypto\'s legitimacy.')
+      
     
     if pm.rstrip("o").startswith("le"):
       x =  pm.replace("'","")
