@@ -403,7 +403,7 @@ async def on_message(message):
           name = html_page.find(class_="aMEhee").text
           await message.channel.send(f"{name} stock price: {html_page.find(jsname='vWLAgc').text}USD")
         except:
-          await message.channel.send(content=f"An Error Occured finding the the stock price for "{str(stock)}". This is likely due to an issue with its legitimacy. Please enter a valid stock name.")
+          await message.channel.send(content=f'An Error Occured finding the the stock price for "{stock}". This is likely due to an issue with its legitimacy. Please enter a valid stock name.')
   
       else: pass
     
@@ -428,8 +428,6 @@ async def on_message(message):
         message.channel.send(content="An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
 
     # print()
-  else: 
-    print(f'An error occured looking up "{crypto}". This is likely due to a problem with this crypto\'s legitimacy.')
       
     
     if pm.rstrip("o").startswith("le"):
