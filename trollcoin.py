@@ -424,8 +424,8 @@ async def on_message(message):
         else:
           await message.channel.send(f'An error occured looking up "{crypto}". This is likely due to a problem with this crypto\'s legitimacy.')
           
-      except:
-        await message.channel.send(content="An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
+       except:
+          await message.channel.send(content="An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
 
     # print()
       
