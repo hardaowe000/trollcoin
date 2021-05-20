@@ -415,7 +415,7 @@ async def on_message(message):
           html_pageG = BeautifulSoup(requests.get("https://www.google.com/search?q="+crypto.replace(" ","+")+"+cryptocurrency+coinmarketcap",headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser")
           cmc = html_pageG.find("div",class_="yuRUbf").find("a")['href']
           if cmc.startswith("https://coinmarketcap.com/"):
-            html_pageC = BeautifulSoup(requests.get(cmc,headers={"user-agent":user}).text,"html.parser")
+            html_pageC = BeautifulSoup(requests.get(cmc,headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"}).text,"html.parser")
             cost = html_pageC.find(class_="priceValue___11gHJ").text
             name = str(html_pageC.find(class_="priceHeading___2GB9O").text.split()[0])
             await message.channel.send(f"{name} costs {cost[1:]}USD.")
