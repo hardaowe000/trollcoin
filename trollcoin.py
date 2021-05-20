@@ -405,8 +405,6 @@ async def on_message(message):
         except:
           await message.channel.send(content=f'An Error Occured finding the the stock price for "{stock}". This is likely due to an issue with its legitimacy. Please enter a valid stock name.')
   
-      else: pass
-    
       elif pm.startswith(prefix+"crypto"):
         try:
           crypto = pm.split()[1:]
@@ -426,7 +424,8 @@ async def on_message(message):
             
         except:
           await message.channel.send("An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
-      
+  
+      else: pass
     
     if pm.rstrip("o").startswith("le"):
       x =  pm.replace("'","")
