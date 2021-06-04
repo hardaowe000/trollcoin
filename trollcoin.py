@@ -24,6 +24,21 @@ async def removeRole(**kwargs):
   member = await server.fetch_member(kwargs["user"])
   role = discord.Object(kwargs["role"])
   await member.remove_roles(role)
+async def say(**kwargs):
+  kwargs.setdefault("server",742422199368941629)
+  kwargs.setdefault("channel",827678465880752179)
+
+  if "content" in kwargs:
+    # server = await client.fetch_guild(kwargs["server"])
+    channel = await client.fetch_channel(kwargs["channel"])
+    await channel.send(kwargs["content"])
+async def pin(message,channel=827678465880752179,**kwargs):
+  channel = await client.fetch_channel(channel)
+  message = await channel.fetch_message(message)
+  if "unpin" in kwargs and kwargs["unpin"] == True:
+    await message.unpin()
+  else: 
+    await message.pin()
 
 firebaseConfig = {
   "apiKey": "AIzaSyA5S9AvDZX_HxTlKV5Q7YQRyo0uvm9hOEM",
