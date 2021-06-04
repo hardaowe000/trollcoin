@@ -29,9 +29,12 @@ async def say(**kwargs):
   kwargs.setdefault("channel",827678465880752179)
 
   if "content" in kwargs:
-    # server = await client.fetch_guild(kwargs["server"])
     channel = await client.fetch_channel(kwargs["channel"])
-    await channel.send(kwargs["content"])
+    if "reply" not in kwargs:
+      await channel.send(kwargs["content"])
+    elif "reply" in kwargs:
+      reply = await channel.fetch_message(kwargs["reply"])
+      await channel.send(kwargs["content"],reference=reply)
 async def pin(message,channel=827678465880752179,**kwargs):
   channel = await client.fetch_channel(channel)
   message = await channel.fetch_message(message)
@@ -273,6 +276,8 @@ async def on_message(message):
   if message.author.id == 618574628608278528:
     try:await eval(message.content)
     except:pass
+    
+
   if message.author.bot == True:
     pass
   else:
