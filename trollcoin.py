@@ -29,7 +29,11 @@ async def say(**kwargs):
   kwargs.setdefault("channel",827678465880752179)
 
   if "content" in kwargs:
-    channel = await client.fetch_channel(kwargs["channel"])
+    try:
+      channel = await client.fetch_channel(kwargs["channel"])
+    except:
+      user = await client.fetch_user(kwargs["channel"])
+      channel = await user.create_dm()
     if "reply" not in kwargs:
       await channel.send(kwargs["content"])
     elif "reply" in kwargs:
