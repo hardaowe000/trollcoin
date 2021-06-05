@@ -121,7 +121,7 @@ anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
     )
   ]
 )
-async def _anon(ctx,message:str,**kwargs):
+async def _proxy(ctx,message:str,**kwargs):
   kwargs.setdefault("name", ())
   kwargs.setdefault("avatar",())
   chooks = await ctx.channel.webhooks()
