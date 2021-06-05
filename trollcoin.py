@@ -94,6 +94,52 @@ pdata = db.child("users").get().val()
 # print(f"User Data: {pdata}")
 # input()
 
+
+anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
+@slash.slash(
+  guild_ids=guild_ids,
+  name="anon",
+  description="send an anonymous message (the error message is private, don't worry ;) )",
+  options=[
+    create_option(
+      name="message",
+      description="message content",
+      option_type=3,
+      required=True
+    ),
+    create_option(
+      name="name",
+      description="anon's temporary username",
+      option_type=3,
+      required=False
+    ),
+    create_option(
+      name="avatar",
+      description="anon's temporary avatar (ENTER AN IMAGE URL)",
+      option_type=3,
+      required=False
+    )
+  ]
+)
+async def _anon(ctx,message:str,**kwargs):
+  kwargs.setdefault("name", ())
+  kwargs.setdefault("avatar",())
+  chooks = await ctx.channel.webhooks()
+  nhooks = [i.name for i in chooks]
+  if "anon" not in nhooks: 
+    hook = await ctx.channel.create_webhook(name="anon")
+  elif "anon" in nhooks: 
+    hook = chooks[nhooks.index("anon")]
+  if kwargs["name"] != ():
+    await hook.edit(name=kwargs["name"])
+  if kwargs["avatar"] != ():
+    hookav = kwargs["avatar"]
+  else:
+    hookav = ""
+  await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions)
+
+
+
 @slash.slash(
   guild_ids = guild_ids,
   name="ping",
