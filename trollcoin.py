@@ -98,7 +98,7 @@ pdata = db.child("users").get().val()
 anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
 @slash.slash(
   guild_ids=guild_ids,
-  name="anon",
+  name="proxy",
   description="send an anonymous message (the error message is private, don't worry ;) )",
   options=[
     create_option(
@@ -109,13 +109,13 @@ anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
     ),
     create_option(
       name="name",
-      description="anon's temporary username",
+      description="proxy's temporary username",
       option_type=3,
       required=False
     ),
     create_option(
       name="avatar",
-      description="anon's temporary avatar (ENTER AN IMAGE URL)",
+      description="proxy's temporary avatar (ENTER AN IMAGE URL)",
       option_type=3,
       required=False
     )
@@ -261,7 +261,7 @@ def helpEmbed():
   )
   embed.add_field(
     name="Slash Commands:",
-    value="**ping** - pong\n**gamble** - gamble a specified amount for a specified return with a specified chance of success/failure",
+    value="**ping** - pong\n**gamble** - gamble a specified amount for a specified return with a specified chance of success/failure\n**proxy** - sends a message that's somewhat anonymous",
     inline=True
   )
   embed.set_footer(text='Made by Elephant#5716 and Sounds About Right#9270 2021')
