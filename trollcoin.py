@@ -131,12 +131,14 @@ async def _anon(ctx,message:str,**kwargs):
   elif "anon" in nhooks: 
     hook = chooks[nhooks.index("anon")]
   if kwargs["name"] != ():
-    await hook.edit(name=kwargs["name"])
+    anonname=kwargs["name"]
+  else:
+    anonname="anon"
   if kwargs["avatar"] != ():
     hookav = kwargs["avatar"]
   else:
     hookav = ""
-  await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions)
+  await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions,username=anonname)
 
 
 
