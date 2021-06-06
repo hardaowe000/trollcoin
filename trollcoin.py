@@ -125,11 +125,11 @@ async def _proxy(ctx,message:str,**kwargs):
   kwargs.setdefault("name", ())
   kwargs.setdefault("avatar",())
   chooks = await ctx.channel.webhooks()
-  nhooks = [i.name for i in chooks]
-  if "anon" not in nhooks: 
+  nhooks = [i.user for i in chooks]
+  if client.user not in nhooks: 
     hook = await ctx.channel.create_webhook(name="anon")
-  elif "anon" in nhooks: 
-    hook = chooks[nhooks.index("anon")]
+  elif client.user in nhooks: 
+    hook = chooks[nhooks.index(client.user)]
   if kwargs["name"] != ():
     anonname=kwargs["name"]
   else:
