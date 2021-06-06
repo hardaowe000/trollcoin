@@ -97,7 +97,7 @@ pdata = db.child("users").get().val()
 
 anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
 @slash.slash(
-  guild_ids=guild_ids,
+#   guild_ids=guild_ids,
   name="proxy",
   description="send an anonymous message (the error message is private, don't worry ;) )",
   options=[
