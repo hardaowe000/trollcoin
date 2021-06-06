@@ -143,7 +143,6 @@ async def _proxy(ctx,message:str,**kwargs):
 
 
 @slash.slash(
-  guild_ids = guild_ids,
   name="ping",
   description="pong",
 )
@@ -151,7 +150,7 @@ async def _ping(ctx):
   await ctx.send("Pong!")
 
 @slash.slash(
-  guild_ids = guild_ids,
+#   guild_ids = guild_ids,
   name="gamble",
   description="gamble an integer amount for a chance to earn 133%",
   options=[
