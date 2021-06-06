@@ -179,6 +179,7 @@ async def _ping(ctx):
   ]
 )
 async def _gamble(ctx,type:str,amount:int):
+  await ctx.channel.trigger_typing()
   global pdata
   # try:
   gamble_type=type
@@ -482,6 +483,7 @@ async def on_message(message):
   
           await message.channel.send(embed = scratchTicket(winner_ticket,your_ticket))
       elif pm.startswith(prefix+"stock"):
+        await message.channel.trigger_typing()
         try:
           stock = pm.split()[1:]
           stock = " ".join(stock)
@@ -499,6 +501,7 @@ async def on_message(message):
           await message.channel.send(content=f'An Error Occured finding the the stock price for "{stock}". This is likely due to an issue with its legitimacy. Please enter a valid stock name.')
   
       elif pm.startswith(prefix+"crypto"):
+        await message.channel.trigger_typing()
         try:
           crypto = pm.split()[1:]
           crypto = " ".join(crypto)
