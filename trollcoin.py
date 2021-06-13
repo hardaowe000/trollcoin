@@ -138,7 +138,7 @@ async def _anon(ctx,message:str,**kwargs):
     hook = chooks[nhooks.index(client.user)]
   if kwargs["name"] != ():
     anonname=kwargs["name"]
-  else: anonname = None
+  else: anonname = "anon"
   if kwargs["avatar"] != ():
     hookav = kwargs["avatar"]
   else: hookav = None
