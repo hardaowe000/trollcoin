@@ -94,10 +94,9 @@ pdata = db.child("users").get().val()
 # print(f"User Data: {pdata}")
 # input()
 
-
 anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
 @slash.slash(
-#   guild_ids=guild_ids,
+  guild_ids=guild_ids,
   name="proxy",
   description="send an anonymous message (the error message is private, don't worry ;) )",
   options=[
@@ -109,21 +108,28 @@ anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
     ),
     create_option(
       name="name",
-      description="proxy's temporary username",
+      description="anon's temporary username",
       option_type=3,
       required=False
     ),
     create_option(
       name="avatar",
-      description="proxy's temporary avatar (ENTER AN IMAGE URL)",
+      description="anon's temporary avatar (ENTER AN IMAGE URL)",
+      option_type=3,
+      required=False
+    ),
+    create_option(
+      name="reply",
+      description="message that will be replied to (ENTER THE MESSAGE ID)",
       option_type=3,
       required=False
     )
   ]
 )
-async def _proxy(ctx,message:str,**kwargs):
+async def _anon(ctx,message:str,**kwargs):
   kwargs.setdefault("name", ())
   kwargs.setdefault("avatar",())
+  kwargs.setdefault("reply",())
   chooks = await ctx.channel.webhooks()
   nhooks = [i.user for i in chooks]
   if client.user not in nhooks: 
@@ -132,16 +138,19 @@ async def _proxy(ctx,message:str,**kwargs):
     hook = chooks[nhooks.index(client.user)]
   if kwargs["name"] != ():
     anonname=kwargs["name"]
-  else:
-    anonname="anon"
+  else: anonname = None
   if kwargs["avatar"] != ():
     hookav = kwargs["avatar"]
-  else:
-    hookav = ""
+  else: hookav = None
+  if kwargs["reply"] != ():
+    wr = await ctx.channel.fetch_message(kwargs["reply"])
+    wrt = list(wr.content)
+    wrt.insert(0, "> ")
+    wrt = "".join(wrt)
+    message = f"{wrt}\n\n{wr.author.mention} {message}"
+
   await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions,username=anonname)
-
-
-
+  
 @slash.slash(
   name="ping",
   description="pong",
