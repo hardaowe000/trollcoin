@@ -531,7 +531,9 @@ async def on_message(message):
         except:
           await message.channel.send("An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
   
-      elif pm.startswith(prefix+"wiki"):
+      else: pass
+    
+      if pm.startswith(prefix+"wiki"):
         await message.channel.trigger_typing()
         pm = message.content.lower()
         wiki_q = pm.split()[1:]
@@ -568,9 +570,7 @@ async def on_message(message):
         page.set_thumbnail(url=imgL)
         page.set_footer(text=message.author,icon_url=message.author.avatar_url_as(format="jpg"))
         await message.channel.send(embed=page)
-  
-      else: pass
-    
+        
     if pm.rstrip("o").startswith("le"):
       x =  pm.replace("'","")
       x =  x.replace(" ","")
