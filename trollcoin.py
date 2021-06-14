@@ -74,7 +74,6 @@ slash = SlashCommand(client, sync_commands=True)
 # https://discord.com/api/oauth2/authorize?client_id=834810968264540182&permissions=8&scope=bot%20applications.commands
 
 user = "Mozilla/5.0 (X11; CrOS x86_64 13816.64.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.100 Safari/537.36"
-wiki_ignore_img = ["//upload.wikimedia.org/wikipedia/en/thumb/4/4a/Commons-logo.svg/30px-Commons-logo.svg.png","//upload.wikimedia.org/wikipedia/commons/thumb/9/99/Wiktionary-logo-en-v2.svg/40px-Wiktionary-logo-en-v2.svg.png","//upload.wikimedia.org/wikipedia/en/thumb/b/b4/Ambox_important.svg/40px-Ambox_important.svg.png","//upload.wikimedia.org/wikipedia/en/thumb/9/99/Question_book-new.svg/50px-Question_book-new.svg.png","//upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Sexual_orientation_-_4_symbols.svg/16px-Sexual_orientation_-_4_symbols.svg.png","//upload.wikimedia.org/wikipedia/en/thumb/9/96/Symbol_category_class.svg/16px-Symbol_category_class.svg.png","//upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Wikiquote-logo.svg/34px-Wikiquote-logo.svg.png"]
 
 lesgo = ["letsg","letsag","lesg"]
 join_messages = [
@@ -549,7 +548,7 @@ async def on_message(message):
           try:
             imgs = [z.find("img")["src"] for z in html_pageW.find_all("tbody") if z.find("img") != None] + [z["src"] for z in html_pageW.find_all("img", class_="thumbimage")]
             for i in range(len(imgs)):
-              if imgs[i] in wiki_ignore_img:
+              if "svg" in imgs[i].split("."):
                 continue
               else:
                 imgL = imgs[i]
