@@ -73,6 +73,8 @@ prefix = "tc!"
 slash = SlashCommand(client, sync_commands=True)
 # https://discord.com/api/oauth2/authorize?client_id=834810968264540182&permissions=8&scope=bot%20applications.commands
 
+user = "Mozilla/5.0 (X11; CrOS x86_64 13816.64.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.100 Safari/537.36"
+wiki_ignore_img = ["//upload.wikimedia.org/wikipedia/en/thumb/4/4a/Commons-logo.svg/30px-Commons-logo.svg.png","//upload.wikimedia.org/wikipedia/commons/thumb/9/99/Wiktionary-logo-en-v2.svg/40px-Wiktionary-logo-en-v2.svg.png","//upload.wikimedia.org/wikipedia/en/thumb/b/b4/Ambox_important.svg/40px-Ambox_important.svg.png","//upload.wikimedia.org/wikipedia/en/thumb/9/99/Question_book-new.svg/50px-Question_book-new.svg.png","//upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Sexual_orientation_-_4_symbols.svg/16px-Sexual_orientation_-_4_symbols.svg.png","//upload.wikimedia.org/wikipedia/en/thumb/9/96/Symbol_category_class.svg/16px-Symbol_category_class.svg.png","//upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Wikiquote-logo.svg/34px-Wikiquote-logo.svg.png"]
 
 lesgo = ["letsg","letsag","lesg"]
 join_messages = [
@@ -529,6 +531,44 @@ async def on_message(message):
             
         except:
           await message.channel.send("An Error Occured retrieving the google crypto lookup page. This is likely due to an error regarding special characters. Not sure though.")
+  
+      elif pm.startswith(prefix+"wiki"):
+        await message.channel.trigger_typing()
+        pm = message.content.lower()
+        wiki_q = pm.split()[1:]
+        wiki_q = " ".join(wiki_q)
+        html_pageW = BeautifulSoup(requests.get("https://en.wikipedia.org/wiki/"+wiki_q,headers={"user-agent":user}).text, "html.parser")
+        page = html_pageW.find_all("b")
+        imgL = "//upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/150px-Wikipedia-logo-v2.svg.png"
+
+        if page[1].text =="Wikipedia does not have an article with this exact name.":
+          page= f'Sorry, but it looks like there\'s no page for "{wiki_q}".'
+        elif page[1].text != "Wikipedia does not have an article with this exact name.":
+          page= html_pageW.find_all("p")
+          page= [p for p in page if p.find("b") != None][0].text.rstrip()
+          try:
+            imgs = [z.find("img")["src"] for z in html_pageW.find_all("tbody") if z.find("img") != None] + [z["src"] for z in html_pageW.find_all("img", class_="thumbimage")]
+            for i in range(len(imgs)):
+              if imgs[i] in wiki_ignore_img:
+                continue
+              else:
+                imgL = imgs[i]
+                break
+          except:
+            pass
+        if page[-1] == ":":
+          page= html_pageW.find(id="mw-content-text")
+          page= [p.text for p in page.find_all("li") if p.find("span") == None and p.find("a") != None][0:5]
+          page= f'"{wiki_q}" could refer to:\n\n'+"\n".join(page)
+        page = discord.Embed(
+        title = f'"{wiki_q[0].upper() + wiki_q[1:]}" Wikipedia Search',
+        description = page,
+        color = discord.Color.from_rgb(252, 255, 51)
+        )
+        imgL = "https:" + imgL
+        page.set_thumbnail(url=imgL)
+        page.set_footer(text=message.author,icon_url=message.author.avatar_url_as(format="jpg"))
+        await message.channel.send(embed=page)
   
       else: pass
     
