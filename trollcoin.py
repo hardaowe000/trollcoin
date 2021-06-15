@@ -555,8 +555,8 @@ async def on_message(message):
               else:
                 imgL = imgs[i]
                 break
-          except:
-            pass
+        except:
+          pass
         if page[-1] == ":":
           page= html_pageW.find(id="mw-content-text")
           page= [p.text for p in page.find_all("li") if p.find("span") == None and p.find("a") != None][0:5]
