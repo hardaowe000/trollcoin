@@ -533,22 +533,22 @@ async def on_message(message):
   
       else: pass
     
-      if pm.startswith(prefix+"wiki"):
-        await message.channel.trigger_typing()
-        pm = message.content.lower()
-        wiki_q = pm.split()[1:]
-        wiki_q = " ".join(wiki_q)
-        html_pageW = BeautifulSoup(requests.get("https://en.wikipedia.org/wiki/"+wiki_q,headers={"user-agent":user}).text, "html.parser")
-        page = html_pageW.find_all("b")
-        imgL = "//upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/150px-Wikipedia-logo-v2.svg.png"
+    elif pm.startswith(prefix+"wiki"):
+      await message.channel.trigger_typing()
+      pm = message.content.lower()
+      wiki_q = pm.split()[1:]
+      wiki_q = " ".join(wiki_q)
+      html_pageW = BeautifulSoup(requests.get("https://en.wikipedia.org/wiki/"+wiki_q,headers={"user-agent":user}).text, "html.parser")
+      page = html_pageW.find_all("b")
+      imgL = "//upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/150px-Wikipedia-logo-v2.svg.png"
 
-        if page[1].text =="Wikipedia does not have an article with this exact name.":
-          page= f'Sorry, but it looks like there\'s no page for "{wiki_q}".'
-        elif page[1].text != "Wikipedia does not have an article with this exact name.":
-          page= html_pageW.find_all("p")
-          page= [p for p in page if p.find("b") != None][0].text.rstrip()
-          try:
-            imgs = [z.find("img")["src"] for z in html_pageW.find_all("tbody") if z.find("img") != None] + [z["src"] for z in html_pageW.find_all("img", class_="thumbimage")]
+      if page[1].text =="Wikipedia does not have an article with this exact name.":
+        page= f'Sorry, but it looks like there\'s no page for "{wiki_q}".'
+      elif page[1].text != "Wikipedia does not have an article with this exact name.":
+        page= html_pageW.find_all("p")
+        page= [p for p in page if p.find("b") != None][0].text.rstrip()
+        try:
+          imgs = [z.find("img")["src"] for z in html_pageW.find_all("tbody") if z.find("img") != None] + [z["src"] for z in html_pageW.find_all("img", class_="thumbimage")]
             for i in range(len(imgs)):
               if "svg" in imgs[i].split("."):
                 continue
@@ -561,17 +561,38 @@ async def on_message(message):
           page= html_pageW.find(id="mw-content-text")
           page= [p.text for p in page.find_all("li") if p.find("span") == None and p.find("a") != None][0:5]
           page= f'"{wiki_q}" could refer to:\n\n'+"\n".join(page)
-        page = discord.Embed(
-        title = f'"{wiki_q[0].upper() + wiki_q[1:]}" Wikipedia Search',
-        description = page,
+      page = discord.Embed(
+      title = f'"{wiki_q[0].upper() + wiki_q[1:]}" Wikipedia Search',
+      description = page,
+      color = discord.Color.from_rgb(252, 255, 51),
+      url = html_pageW.find("link",rel="canonical")["href"]
+      )
+      imgL = "https:" + imgL
+      page.set_thumbnail(url=imgL)
+      page.set_footer(text=message.author,icon_url=message.author.avatar_url_as(format="jpg"))
+      await message.channel.send(embed=page)
+      
+    elif pm.startswith(prefix+"urban"):
+      await message.channel.trigger_typing()
+      pm = message.content.lower()
+      q = " ".join(pm.split()[1:])
+      html = BeautifulSoup(requests.get("https://www.urbandictionary.com/define.php?term="+q,headers={"user-agent":user}).text, "html.parser")
+      page = html.find("div",class_="def-panel")
+
+      embed = discord.Embed(
+        title = f'"{q[0].upper() + q[1:]}" Urban Dictionary Search',
         color = discord.Color.from_rgb(252, 255, 51),
-        url = html_pageW.find("link",rel="canonical")["href"]
-        )
-        imgL = "https:" + imgL
-        page.set_thumbnail(url=imgL)
-        page.set_footer(text=message.author,icon_url=message.author.avatar_url_as(format="jpg"))
-        await message.channel.send(embed=page)
-        
+        url = html.find("link",rel="canonical")["href"] if html.find("link",rel="canonical") != None else "https://www.urbandictionary.com/define.php?term=generic%20error%20page"
+      ).set_thumbnail(url="https://th.bing.com/th?q=Urban+Dictionary+Icon").set_footer(text=message.author,icon_url=message.author.avatar_url_as(format="jpg"))
+
+      if page != None:
+        embed.add_field(name="Definition:",value=page.find("div",class_="meaning").text)
+        embed.add_field(name="Example:",value=page.find("div",class_="example").text)
+      else:
+        embed.description = f'There were not results for "{q}" :/'
+    
+      await message.channel.send(embed = embed)
+      
     if pm.rstrip("o").startswith("le"):
       x =  pm.replace("'","")
       x =  x.replace(" ","")
