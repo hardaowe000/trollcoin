@@ -562,10 +562,10 @@ async def on_message(message):
           page= [p.text for p in page.find_all("li") if p.find("span") == None and p.find("a") != None][0:5]
           page= f'"{wiki_q}" could refer to:\n\n'+"\n".join(page)
       page = discord.Embed(
-      title = f'"{wiki_q[0].upper() + wiki_q[1:]}" Wikipedia Search',
-      description = page,
-      color = discord.Color.from_rgb(252, 255, 51),
-      url = html_pageW.find("link",rel="canonical")["href"]
+        title = f'"{wiki_q[0].upper() + wiki_q[1:]}" Wikipedia Search',
+        description = page,
+        color = discord.Color.from_rgb(252, 255, 51),
+        url = html_pageW.find("link",rel="canonical")["href"]
       )
       imgL = "https:" + imgL
       page.set_thumbnail(url=imgL)
