@@ -549,12 +549,12 @@ async def on_message(message):
         page= [p for p in page if p.find("b") != None][0].text.rstrip()
         try:
           imgs = [z.find("img")["src"] for z in html_pageW.find_all("tbody") if z.find("img") != None] + [z["src"] for z in html_pageW.find_all("img", class_="thumbimage")]
-            for i in range(len(imgs)):
-              if "svg" in imgs[i].split("."):
-                continue
-              else:
-                imgL = imgs[i]
-                break
+          for i in range(len(imgs)):
+            if "svg" in imgs[i].split("."):
+              continue
+            else:
+              imgL = imgs[i]
+              break
         except:
           pass
         if page[-1] == ":":
