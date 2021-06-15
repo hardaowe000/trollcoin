@@ -587,7 +587,7 @@ async def on_message(message):
 
       if page != None:
         embed.add_field(name="Definition:",value=page.find("div",class_="meaning").text)
-        embed.add_field(name="Example:",value=page.find("div",class_="example").text)
+        if page.find("div",class_="example") != None:embed.add_field(name="Example:",value=page.find("div",class_="example").text)
       else:
         embed.description = f'There were not results for "{q}" :/'
     
