@@ -533,7 +533,7 @@ async def on_message(message):
   
       else: pass
     
-    elif pm.startswith(prefix+"wiki"):
+    if pm.startswith(prefix+"wiki"):
       await message.channel.trigger_typing()
       pm = message.content.lower()
       wiki_q = pm.split()[1:]
