@@ -148,7 +148,7 @@ async def _anon(ctx,message:str,**kwargs):
     wrt = list(wr.content)
     wrt.insert(0, "> ")
     wrt = "".join(wrt)
-    message = f"{wrt}\n\n{wr.author.mention} {message}"
+    message = f"{wrt}\n{wr.author.mention} {message}"
 
   await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions,username=anonname)
   
