@@ -149,7 +149,7 @@ async def _anon(ctx,message:str,**kwargs):
     wrt.insert(0, "> ")
     wrt = "".join(wrt)
     message = f"{wrt}\n{wr.author.mention} {message}"
-
+  await ctx.send(content="Proxy Successful",hidden=True)
   await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions,username=anonname)
   
 @slash.slash(
