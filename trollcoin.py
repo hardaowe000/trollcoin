@@ -92,13 +92,175 @@ channels = [int(f) for f in db.child('binded_channels').get().val()]
 # print(f"Binded Channels: {channels}")
 
 pdata = db.child("users").get().val()
+
+LAYOUTS = dict(db.child("layouts").get().val())
 # print(f"User Data: {pdata}")
 # input()
 
 anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
+
+@slash.slash(
+  guild_ids=guild_ids,
+  name="edit",
+  description="edit a proxy layout",
+  options=[
+    create_option(
+      name="layout",
+      description="which layout you'd like to edit",
+      option_type=3,
+      required=True,
+      choices=[
+        create_choice(
+          name="Layout One",
+          value="one"
+        ),
+        create_choice(
+          name="Layout Two",
+          value="two"
+        ),
+        create_choice(
+          name="Layout Three",
+          value="three"
+        )
+      ]
+    ),
+    create_option(
+      name="name",
+      description="name of this layout",
+      option_type=3,
+      required=False
+    ),
+    create_option(
+      name="avatar",
+      description="avatar of this layout (ENTER THE IMAGE URL)",
+      option_type=3,
+      required=False
+    )
+  ]
+)
+async def _edit(ctx,layout:str,name=False,avatar=None):
+  global LAYOUTS
+
+  if ctx.author.id not in LAYOUTS:
+    LAYOUTS.update({
+      ctx.author.id: {
+        "one":{
+          "name":"anon",
+          "avatar":None
+        },
+        "two":{
+          "name":"anon",
+          "avatar":None
+        },
+        "three":{
+          "name":"anon",
+          "avatar":None
+        }
+      }
+    })
+    print(LAYOUTS)
+  
+  if name: LAYOUTS[ctx.author.id][layout]["name"] = name
+  if avatar!=None: LAYOUTS[ctx.author.id][layout]["avatar"] = avatar
+
+  await ctx.send(f"""
+  Layout {layout} Editing Complete:
+
+  **Name:**
+  {LAYOUTS[ctx.author.id][layout]["name"]}
+  **Avatar:**
+  {LAYOUTS[ctx.author.id][layout]["avatar"]}
+  """, hidden=True)
+
 @slash.slash(
   guild_ids=guild_ids,
   name="proxy",
+  description="send a proxy message using preset user layouts",
+  options=[
+    create_option(
+      name="message",
+      description="message content",
+      option_type=3,
+      required=True
+    ),
+    create_option(
+      name="layout",
+      description="user layout for this message author",
+      option_type=3,
+      required=False,
+      choices=[
+        create_choice(
+          name="Layout One",
+          value="one"
+        ),
+        create_choice(
+          name="Layout Two",
+          value="two"
+        ),
+        create_choice(
+          name="Layout Three",
+          value="three"
+        )
+      ]
+    ),
+    create_option(
+      name="reply",
+      description="message to be replied to (ENTER THE MESSAGE ID)",
+      option_type=3,
+      required=False
+    )
+  ]
+)
+async def _proxy(ctx,message:str,layout="self",reply=False):
+  global LAYOUTS
+
+  if ctx.author.id not in LAYOUTS:
+    LAYOUTS.update({
+      ctx.author.id: {
+        "one":{
+          "name":"anon",
+          "avatar":None
+        },
+        "two":{
+          "name":"anon",
+          "avatar":None
+        },
+        "three":{
+          "name":"anon",
+          "avatar":None
+        }
+      }
+    })
+    print(LAYOUTS)
+
+  if layout=="self":
+    name=ctx.author.display_name
+    avatar=ctx.author.avatar_url_as(format="jpg")
+  else:
+    name=LAYOUTS[ctx.author.id][layout]["name"]
+    avatar=LAYOUTS[ctx.author.id][layout]["avatar"]
+
+  chooks = await ctx.channel.webhooks()
+  nhooks = [i.user for i in chooks]
+  if client.user not in nhooks: 
+    hook = await ctx.channel.create_webhook(name="anon")
+  elif client.user in nhooks: 
+    hook = chooks[nhooks.index(client.user)]
+
+  if reply:
+    wr = await ctx.channel.fetch_message(reply)
+    wrt = list(wr.content)
+    wrt.insert(0, "> ")
+    wrt = "".join(wrt)
+    message = f"{wrt}\n{wr.author.mention} {message}"
+
+  await ctx.send(f"Layout {layout} Success",hidden=True)
+  await hook.send(message,username=name,avatar_url=avatar,allowed_mentions=anonallowedmentions)
+
+
+@slash.slash(
+  guild_ids=guild_ids,
+  name="anon",
   description="send an anonymous message",
   options=[
     create_option(
@@ -151,13 +313,6 @@ async def _anon(ctx,message:str,**kwargs):
     message = f"{wrt}\n{wr.author.mention} {message}"
   await ctx.send(content="Proxy Successful",hidden=True)
   await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions,username=anonname)
-  
-@slash.slash(
-  name="ping",
-  description="pong",
-)
-async def _ping(ctx):
-  await ctx.send("Pong!")
 
 @slash.slash(
 #   guild_ids = guild_ids,
@@ -231,23 +386,6 @@ async def _gamble(ctx,type:str,amount:int):
   # except:
   #  await ctx.send(content="Oh no, there was an error! Maybe it was because you didn't format this command properly... not sure.")
 
-channel = 834813365648883744
-async def manual_input():
-  global channel
-  while True:
-    x=""
-    x = await aioconsole.ainput(f"tc$manual : ")
-    if x != "":
-      # channel = 834813365648883744
-      if x == "tc$empty":
-        x = "||\n||"
-      if x.startswith("tc$c"):
-        channel = int(x.split()[1])
-        x = " ".join(x.split()[2:])
-      try:
-        await client.get_channel(channel).send(x)
-      except: pass
-    else: continue
 def CE(**info):
   info.setdefault('title','TrollCoin')
   info.setdefault('description','No description was provided for this embed')
@@ -271,7 +409,7 @@ def helpEmbed():
   )
   embed.add_field(
     name="Slash Commands:",
-    value="**ping** - pong\n**gamble** - gamble a specified amount for a specified return with a specified chance of success/failure\n**proxy** - sends a message that's somewhat anonymous",
+    value="**gamble** - gamble a specified amount for a specified return with a specified chance of success/failure\n**proxy** - sends a message that's somewhat anonymous",
     inline=True
   )
   embed.set_footer(text='Made by Elephant#5716 and Sounds About Right#9270 2021')
@@ -645,6 +783,7 @@ def saveData():
     # print(f"Channel Data Saved:\n{channels}")
     db.child("users").update(pdata)
     # print(f"User Data Saved:\n{pdata}")
+    db.child("layouts").update(LAYOUTS)
 saveDataT = threading.Thread(args=[],target=saveData)
 
 @client.event
