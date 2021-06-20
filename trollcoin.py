@@ -534,7 +534,7 @@ async def on_message(message):
       else:
         message.channel.send(f"<@{message.author.id}>, you don't have an account! Type tc!create to make an account.")
   
-    if (pm.startswith(prefix+"bind") and str(message.channel.type) != "private") and message.author == message.channel.guild.owner or message.author.guild_permissions.administrator:
+    if (pm.startswith(prefix+"bind") and str(message.channel.type) != "private") and (message.author == message.channel.guild.owner or message.author.guild_permissions.administrator):
       if message.channel.id in channels:
         await message.channel.send("Channel already binded.")
       else:
@@ -548,7 +548,7 @@ async def on_message(message):
     if int(message.channel.id) in channels or str(message.channel.type) == "private":
       if message.author == client.user:
         return
-      if (pm.startswith(prefix+"unbind") and str(message.channel.type) != "private") and message.author == message.channel.guild.owner or message.author.guild_permissions.administrator:
+      if (pm.startswith(prefix+"unbind") and str(message.channel.type) != "private") and (message.author == message.channel.guild.owner or message.author.guild_permissions.administrator):
       
         channels.pop(channels.index(message.channel.id))
   
