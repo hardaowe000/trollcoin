@@ -456,7 +456,7 @@ def helpEmbed():
   )
   embed.add_field(
     name="Slash Commands:",
-    value="**gamble** - gamble a specified amount for a specified return with a specified chance of success/failure\n**anon** - sends a message that's somewhat anonymous\n**proxy** - sends a proxy message whos author is a customizable layout\n**edit** - edits the proxies' layouts",
+    value="**gamble** - gamble a specified amount for a specified return with a specified chance of success/failure\n**anon** - sends a message that's somewhat anonymous\n**proxy** - sends a proxy message whos author is a customizable layout\n**edit** - edits the proxies' layouts\n**impersonate** - impersonates a user",
     inline=True
   )
   embed.set_footer(text='Made by Elephant#5716 and Sounds About Right#9270 2021')
