@@ -101,6 +101,53 @@ anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
 
 @slash.slash(
   guild_ids=guild_ids,
+  name="impersonate",
+  description="get out of my head get out of my head get out of my head (impersonates the mentioned user)",
+  options=[
+    create_option(
+      name="message",
+      description="message to be sent",
+      option_type=3,
+      required=True
+    ),
+    create_option(
+      name="user",
+      description="user to be impersonated",
+      option_type=6,
+      required=True
+    ),
+    create_option(
+      name="reply",
+      description="message that this will reply to",
+      option_type=3,
+      required=False
+    )
+  ]
+)
+async def _impersonate(ctx,message:str,user,reply=False):
+  # print(type(user))
+  avatar=user.avatar_url_as(format="jpg")
+  name=user.display_name
+
+  chooks = await ctx.channel.webhooks()
+  nhooks = [i.user for i in chooks]
+  if client.user not in nhooks: 
+    hook = await ctx.channel.create_webhook(name="anon")
+  elif client.user in nhooks: 
+    hook = chooks[nhooks.index(client.user)]
+
+  if reply:
+    wr = await ctx.channel.fetch_message(reply)
+    wrt = list(wr.content)
+    wrt.insert(0, "> ")
+    wrt = "".join(wrt)
+    message = f"{wrt}\n{wr.author.mention} {message}"
+
+  await ctx.send(f"Impersonation of {user.mention} Complete",hidden=True)
+  await hook.send(content=message,username=name,avatar_url=avatar)
+
+@slash.slash(
+  guild_ids=guild_ids,
   name="edit",
   description="edit a proxy layout",
   options=[
