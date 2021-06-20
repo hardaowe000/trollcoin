@@ -100,7 +100,6 @@ LAYOUTS = dict(db.child("layouts").get().val())
 anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
 
 @slash.slash(
-  guild_ids=guild_ids,
   name="impersonate",
   description="get out of my head get out of my head get out of my head (impersonates the mentioned user)",
   options=[
@@ -147,7 +146,6 @@ async def _impersonate(ctx,message:str,user,reply=False):
   await hook.send(content=message,username=name,avatar_url=avatar)
 
 @slash.slash(
-  guild_ids=guild_ids,
   name="edit",
   description="edit a proxy layout",
   options=[
@@ -220,7 +218,6 @@ async def _edit(ctx,layout:str,name=False,avatar=None):
   """, hidden=True)
 
 @slash.slash(
-  guild_ids=guild_ids,
   name="proxy",
   description="send a proxy message using preset user layouts",
   options=[
@@ -306,7 +303,6 @@ async def _proxy(ctx,message:str,layout="self",reply=False):
 
 
 @slash.slash(
-  guild_ids=guild_ids,
   name="anon",
   description="send an anonymous message",
   options=[
