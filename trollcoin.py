@@ -147,7 +147,7 @@ async def _impersonate(ctx,message:str,user,reply=False):
     message = f"{wrt}\n{author} {message}"
 
   await ctx.send(f"Impersonation of {user.mention} Complete",hidden=True)
-  await hook.send(content=message,username=name,avatar_url=avatar)
+  await hook.send(content=message,username=name,avatar_url=avatar,allowed_mentions=anonallowedmentions)
 
 @slash.slash(
   name="edit",
