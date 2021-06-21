@@ -137,10 +137,14 @@ async def _impersonate(ctx,message:str,user,reply=False):
 
   if reply:
     wr = await ctx.channel.fetch_message(reply)
+    if wr.author.bot:
+      author="@"+wr.author.display_name
+    else:
+      author=wr.author.mention
     wrt = list(wr.content)
     wrt.insert(0, "> ")
     wrt = "".join(wrt)
-    message = f"{wrt}\n{wr.author.mention} {message}"
+    message = f"{wrt}\n{author} {message}"
 
   await ctx.send(f"Impersonation of {user.mention} Complete",hidden=True)
   await hook.send(content=message,username=name,avatar_url=avatar)
@@ -293,10 +297,14 @@ async def _proxy(ctx,message:str,layout="self",reply=False):
 
   if reply:
     wr = await ctx.channel.fetch_message(reply)
+    if wr.author.bot:
+      author="@"+wr.author.display_name
+    else:
+      author=wr.author.mention
     wrt = list(wr.content)
     wrt.insert(0, "> ")
     wrt = "".join(wrt)
-    message = f"{wrt}\n{wr.author.mention} {message}"
+    message = f"{wrt}\n{author} {message}"
 
   await ctx.send(f"Layout {layout} Success",hidden=True)
   await hook.send(message,username=name,avatar_url=avatar,allowed_mentions=anonallowedmentions)
@@ -350,10 +358,14 @@ async def _anon(ctx,message:str,**kwargs):
   else: hookav = None
   if kwargs["reply"] != ():
     wr = await ctx.channel.fetch_message(kwargs["reply"])
+    if wr.author.bot:
+      author="@"+wr.author.display_name
+    else: 
+      author=wr.author.mention
     wrt = list(wr.content)
     wrt.insert(0, "> ")
     wrt = "".join(wrt)
-    message = f"{wrt}\n{wr.author.mention} {message}"
+    message = f"{wrt}\n{author} {message}"
   await ctx.send(content="Proxy Successful",hidden=True)
   await hook.send(message, avatar_url=hookav,allowed_mentions=anonallowedmentions,username=anonname)
 
