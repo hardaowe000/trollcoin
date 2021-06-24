@@ -125,7 +125,7 @@ anonallowedmentions = discord.AllowedMentions(everyone=False,roles=False)
 )
 async def _impersonate(ctx,message:str,user,reply=False):
   # print(type(user))
-  avatar=user.avatar_url_as(format="jpg")
+  avatar=user.avatar_url_as(format="png")
   name=user.display_name
 
   chooks = await ctx.channel.webhooks()
@@ -283,7 +283,7 @@ async def _proxy(ctx,message:str,layout="self",reply=False):
 
   if layout=="self":
     name=ctx.author.display_name
-    avatar=ctx.author.avatar_url_as(format="jpg")
+    avatar=ctx.author.avatar_url_as(format="png")
   else:
     name=LAYOUTS[ctx.author.id][layout]["name"]
     avatar=LAYOUTS[ctx.author.id][layout]["avatar"]
